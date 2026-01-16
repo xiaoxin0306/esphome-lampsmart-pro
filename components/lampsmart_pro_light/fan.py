@@ -3,8 +3,8 @@ import esphome.config_validation as cv
 from esphome.components import fan
 from esphome.const import (
     CONF_DURATION,
-    CONF_OUTPUT_ID,
     CONF_GROUP,
+    CONF_ID,
 )
 
 CONF_FANS = "fans"
@@ -17,19 +17,16 @@ lampsmartpro_ns = cg.esphome_ns.namespace('lampsmartpro')
 LampSmartProFan = lampsmartpro_ns.class_('LampSmartProFan', cg.Component, fan.Fan)
 
 
-CONFIG_SCHEMA = cv.All(
-    fan.FAN_SCHEMA.extend(
-        {
-            cv.GenerateID(CONF_OUTPUT_ID): cv.declare_id(LampSmartProFan),
-            cv.Optional(CONF_DURATION, default=100): cv.positive_int,
-            cv.Optional(CONF_GROUP, default=0x0): cv.hex_uint8_t,
-        }
-    )
+CONFIG_SCHEMA = fan.fan_schema(LampSmartProFan).extend(
+    {
+        cv.Optional(CONF_DURATION, default=100): cv.positive_int,
+        cv.Optional(CONF_GROUP, default=0x0): cv.hex_uint8_t,
+    }
 )
 
 
 async def to_code(config):
-    var = cg.new_Pvariable(config[CONF_OUTPUT_ID])
+    var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
     await fan.register_fan(var, config)
 

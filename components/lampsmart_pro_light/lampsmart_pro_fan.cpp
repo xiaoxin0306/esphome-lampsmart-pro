@@ -37,7 +37,7 @@ namespace esphome
       esp_wifi_get_mac(WIFI_IF_STA, hash);
       int crc = CRC16((char *)&hash, 6, 0);
       #else
-      uint32_t hash = light_state_ ? light_state_->get_object_id_hash() : 0xcafebabe;
+      uint32_t hash = this->get_object_id_hash();
       int crc = CRC16((char *)&hash, 4, 0);
       #endif
 

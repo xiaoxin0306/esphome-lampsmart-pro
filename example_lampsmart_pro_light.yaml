@@ -1,6 +1,39 @@
+esphome:
+  name: lampsmart_pro_light
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: ""
+  custom_services: true
+
+ota:
+  - platform: esphome
+    password: ""
+
+wifi:
+  ssid: ""
+  password: ""
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Lampsmart Pro Light"
+    password: ""
+
+captive_portal:
+    
 external_components:
-  # shorthand
-  source: github://zt8989/esphome-lampsmart-pro
+  - source:
+      type: github://zt8989/esphome-lampsmart-pro
+      path: components
+    components: [lampsmart_pro_light]
 
 light:
   - platform: lampsmart_pro_light
