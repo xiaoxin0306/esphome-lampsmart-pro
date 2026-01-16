@@ -55,10 +55,8 @@ namespace esphome
 
       ESP_LOGD(TAG, "write state: remote: %s, current: %s", ONOFF(state->remote_values.is_on()), ONOFF(state->current_values.is_on()));
       if (state->current_values.is_on()) {
-        if (!_is_off.has_value() || _is_off.value() != state->current_values.is_on()) {
-          send_packet(CMD_TURN_ON, 0, 0);
-          ESP_LOGD(TAG, "write state: send turn on");
-        }
+        send_packet(CMD_TURN_ON, 0, 0);
+        ESP_LOGD(TAG, "write state: send turn on");
         _is_off = state->current_values.is_on();
         uint8_t cwi = (uint8_t)(0xff * cwf);
         uint8_t wwi = (uint8_t)(0xff * wwf);
@@ -80,10 +78,8 @@ namespace esphome
 
         send_packet(CMD_DIM, cwi, wwi);
       } else {
-        if (!_is_off.has_value() || _is_off.value() != state->current_values.is_on()) {
-            send_packet(CMD_TURN_OFF, 0, 0);
-            ESP_LOGD(TAG, "write state: send turn off");
-        }
+        send_packet(CMD_TURN_OFF, 0, 0);
+        ESP_LOGD(TAG, "write state: send turn off");
         _is_off = state->current_values.is_on();
         return;
       }
